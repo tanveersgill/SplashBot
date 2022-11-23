@@ -1,4 +1,4 @@
-# Splash_Bot
+# SplashBot
 A term design project for ECE 198 that monitors soil moisture conditions and automatically irrigates as needed
 
 
