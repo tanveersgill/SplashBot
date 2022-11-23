@@ -65,13 +65,18 @@ static void MX_ADC1_Init(void);
 
 void turn_motor_on(){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); // turning motor on
+  
 }
 
 void turn_motor_off(){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET); // turning motor off
-
 }
 
+void water_plant(){
+   turn_motor_on();
+   HAL_Delay(2500); // waiting for motor to finish watering plant
+   turn_motor_on();
+}
 
 int main(void)
 {
@@ -109,9 +114,9 @@ int main(void)
     /* USER CODE END WHILE */
    
    
-    turn_motor_on();
-    HAL_Delay(500); // waiting for it to finish job
-    turn_motor_off();
+    water_plant();
+    HAL_Delay(3000); // time to wait between tests
+
    
    
     /* USER CODE BEGIN 3 */
