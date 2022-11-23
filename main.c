@@ -62,6 +62,17 @@ static void MX_ADC1_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+
+void turn_motor_on(){
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); // turning motor on
+}
+
+void turn_motor_off(){
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET); // turning motor off
+
+}
+
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -96,7 +107,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+   
+   
+    turn_motor_on();
+    HAL_Delay(500); // waiting for it to finish job
+    turn_motor_off();
+   
+   
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
