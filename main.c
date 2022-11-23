@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -40,7 +41,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
-unsigned int analog_value{0};
+unsigned int analog_value = 0;
+unsigned int analog_value1 = 0;
 
 /* USER CODE BEGIN PV */
 
@@ -56,17 +58,9 @@ static void MX_ADC1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
-
 void turn_motor_on(){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); // turning motor on
-  
+
 }
 
 void turn_motor_off(){
@@ -76,7 +70,7 @@ void turn_motor_off(){
 void water_plant(){
    turn_motor_on();
    HAL_Delay(2500); // waiting for motor to finish watering plant
-   turn_motor_on();
+   turn_motor_off();
 }
 
 // YELLOW LIGHT:
@@ -90,17 +84,17 @@ void turn_yellow_light_off(){
 // RED LIGHT:
 void turn_red_light_on(){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET); // turning red light on
-} 
+}
 void turn_red_light_off(){
  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET); // turning red light off
 }
 
 // GREEN LIGHT:
-void turn_green_light_on(int milliseconds){
+void turn_green_light_on(){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET); // turning green light on
 }
 
-void turn_green_light_off(int milliseconds){
+void turn_green_light_off(){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET); // turning green light off
 }
 
@@ -109,15 +103,15 @@ double mapValue (unsigned int val, unsigned int waterVal, unsigned int airVal) {
 	// the upper bound for the sensor we measured is 2800
 	// the lower bound for the sensor we measured is 1000
 	double mappedValue = ((double)val - (double)waterVal) * 100 / ((double)airVal - (double)waterVal);
-	
+
 	return mappedValue;
 }
 
 double get_moisture_percentage(unsigned int sensor_value){
-	return (100.0 - mapValue(sensor_value, 2800, 1000));
+	return (mapValue(sensor_value, 2800, 1000));
 }
 
-int read_moisture_sensor(){
+unsigned int read_moisture_sensor(){
   HAL_ADC_Start(&hadc1);
 
   if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
@@ -126,6 +120,14 @@ int read_moisture_sensor(){
   HAL_ADC_Stop(&hadc1);
   return analog_value;
 }
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+
 
 int main(void)
 {
@@ -158,12 +160,41 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  double percentage;
   while (1)
   {
-    /* USER CODE END WHILE */
-	
 
-   
+	  HAL_ADC_Start(&hadc1);
+
+	  if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
+	      analog_value1 = (unsigned int) HAL_ADC_GetValue(&hadc1);
+	    }
+	  HAL_ADC_Stop(&hadc1);
+
+	  percentage = get_moisture_percentage(analog_value1);
+
+	  if (percentage <= 33) {
+		  turn_red_light_on();
+		  water_plant();
+
+	  }
+	  else if (percentage <= 66){
+		  turn_yellow_light_on();
+	  }
+	  else {
+		  turn_green_light_on();
+
+	  }
+
+	  HAL_Delay(50);
+
+	  turn_green_light_off();
+	  turn_yellow_light_off();
+	  turn_red_light_off();
+
+	 /* USER CODE END WHILE */
+
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
