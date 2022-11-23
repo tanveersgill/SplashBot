@@ -104,6 +104,18 @@ void turn_green_light_off(int milliseconds){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET); // turning green light off
 }
 
+double mapValue (unsigned int val, unsigned int waterVal, unsigned int airVal) {
+	// converts the value read from the sensor to percentage
+	// the upper bound for the sensor we measured is 2800
+	// the lower bound for the sensor we measured is 1000
+	double mappedValue = ((double)val - (double)waterVal) * 100 / ((double)airVal - (double)waterVal);
+	
+	return mappedValue;
+}
+
+double get_moisture_percentage(unsigned int sensor_value){
+	return (100.0 - mapValue(sensor_value, 2800, 1000));
+}
 
 int read_moisture_sensor(){
   HAL_ADC_Start(&hadc1);
@@ -114,7 +126,6 @@ int read_moisture_sensor(){
   HAL_ADC_Stop(&hadc1);
   return analog_value;
 }
-
 
 int main(void)
 {
