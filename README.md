@@ -11,4 +11,4 @@ PIN_B4 -> (GPIO_Output) Pin for GREEN LED
 
 PIN_B3 -> (GPIO_Output) Pin for RED LED
 
-PIN_A9 -> (GPIO_Analog) Pin for moisture detection
+PIN_A1 -> (ADC1_IN1) Pin for moisture detection
