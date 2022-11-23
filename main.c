@@ -40,6 +40,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+unsigned int analog_value;
 
 /* USER CODE BEGIN PV */
 
@@ -137,22 +138,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-   
-   
-    turn_green_light_on();
-    HAL_Delay(750);
-   
-    turn_yellow_light_on();
-    HAL_Delay(750);
-   
-    turn_red_light_on();
-    HAL_Delay(750);
-    
-    turn_green_light_off();
-    turn_yellow_light_off();
-    turn_red_light_off();
-    
-    HAL_Delay(1000); 
+	  HAL_ADC_Start(&hadc1);
+	  if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
+		  analog_value = (unsigned int) HAL_ADC_GetValue(&hadc1);
+	  }
+	  HAL_ADC_Stop(&hadc1);
+	  HAL_Delay(200);
+
    
     /* USER CODE BEGIN 3 */
   }
