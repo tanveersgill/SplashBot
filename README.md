@@ -1,5 +1,5 @@
 # Splash_Bot
-A project that automatically waters plants based on soil moisture.
+A term design project for ECE 198 that monitors soil moisture conditions and automatically irrigates as needed
 
 
 ### Pin Allocations
