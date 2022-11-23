@@ -74,7 +74,7 @@ void turn_motor_off(){
 
 void water_plant(){
    turn_motor_on();
-   HAL_Delay(5000); // waiting for motor to finish watering plant
+   HAL_Delay(2500); // waiting for motor to finish watering plant
    turn_motor_on();
 }
 
