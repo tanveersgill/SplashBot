@@ -74,7 +74,7 @@ void turn_motor_off(){
 
 void water_plant(){
    turn_motor_on();
-   HAL_Delay(500); // waiting for motor to finish watering plant
+   HAL_Delay(1000); // waiting for motor to finish watering plant
    turn_motor_on();
 }
 
@@ -115,7 +115,7 @@ int main(void)
    
    
     water_plant();
-    HAL_Delay(1000);
+    HAL_Delay(3000); // time to wait between tests
 
    
    
