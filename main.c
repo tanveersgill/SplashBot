@@ -40,7 +40,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
-unsigned int analog_value{0};
+unsigned int analog_value = 0;
 
 /* USER CODE BEGIN PV */
 
@@ -75,8 +75,8 @@ void turn_motor_off(){
 
 void water_plant(){
    turn_motor_on();
-   HAL_Delay(2500); // waiting for motor to finish watering plant
-   turn_motor_on();
+   HAL_Delay(5000); // waiting for motor to finish watering plant
+   turn_motor_off();
 }
 
 // YELLOW LIGHT:
@@ -150,7 +150,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	
+    HAL_Delay(7000); // wait time before test starts
+    water_plant();
+    HAL_Delay(3000); // waiting for motor to finish watering plant
 
    
     /* USER CODE BEGIN 3 */
