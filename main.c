@@ -96,6 +96,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); // turning motor on
+    HAL_Delay(500); // waiting for it to finish job
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET); // turning motor off
+    HAL_Delay(500); // waiting for it to finish job
 
     /* USER CODE BEGIN 3 */
   }
