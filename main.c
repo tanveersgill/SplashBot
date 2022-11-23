@@ -78,6 +78,31 @@ void water_plant(){
    turn_motor_on();
 }
 
+// YELLOW LIGHT:
+void turn_yellow_light_on(){
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET); // turning yellow light on
+}
+void turn_yellow_light_off(){
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET); // turning yellow light off
+}
+
+// RED LIGHT:
+void turn_red_light_on(){
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET); // turning red light on
+} 
+void turn_red_light_off(){
+ HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET); // turning red light off
+}
+
+// GREEN LIGHT:
+void turn_green_light_on(int milliseconds){
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET); // turning green light on
+}
+
+void turn_green_light_off(int milliseconds){
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET); // turning green light off
+}
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -114,10 +139,20 @@ int main(void)
     /* USER CODE END WHILE */
    
    
-    water_plant();
-    HAL_Delay(3000); // time to wait between tests
-
+    turn_green_light_on();
+    HAL_Delay(750);
    
+    turn_yellow_light_on();
+    HAL_Delay(750);
+   
+    turn_red_light_on();
+    HAL_Delay(750);
+    
+    turn_green_light_off();
+    turn_yellow_light_off();
+    turn_red_light_off();
+    
+    HAL_Delay(1000); 
    
     /* USER CODE BEGIN 3 */
   }
