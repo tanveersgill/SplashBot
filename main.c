@@ -40,7 +40,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
-unsigned int analog_value;
+unsigned int analog_value{0};
 
 /* USER CODE BEGIN PV */
 
@@ -104,6 +104,18 @@ void turn_green_light_off(int milliseconds){
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET); // turning green light off
 }
 
+
+int read_moisture_sensor(){
+  HAL_ADC_Start(&hadc1);
+
+  if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
+      analog_value = (unsigned int) HAL_ADC_GetValue(&hadc1);
+    }
+  HAL_ADC_Stop(&hadc1);
+  return analog_value;
+}
+
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -138,12 +150,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  HAL_ADC_Start(&hadc1);
-	  if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
-		  analog_value = (unsigned int) HAL_ADC_GetValue(&hadc1);
-	  }
-	  HAL_ADC_Stop(&hadc1);
-	  HAL_Delay(200);
+	
 
    
     /* USER CODE BEGIN 3 */
